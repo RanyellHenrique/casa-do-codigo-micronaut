@@ -11,12 +11,16 @@ import javax.validation.Valid
 
 @Validated
 @Controller("/autores")
-class CadastraAutoresController(val autorRepository: AutorRepository) {
+class CadastraAutoresController(
+    val autorRepository: AutorRepository,
+    val cepClient: CepClient
+) {
 
     @Post
     @Transactional
     fun cadastraNovoAutor(@Body @Valid request: NovoAutorRequest): HttpResponse<Any> {
-        val novoAutor = request.paraAutor()
+        val consulta = cepClient.consulta(request.cep).body()
+        val novoAutor = request.paraAutor(consulta!!)
         val autor = autorRepository.save(novoAutor)
         val uri = UriBuilder.of("/autores/{id}").expand(mutableMapOf(Pair("id", autor.id)))
         return HttpResponse.created(uri)

@@ -43,7 +43,8 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
     implementation("org.postgresql:postgresql:42.2.18")
-
+    testImplementation("org.mockito:mockito-core")
+    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 }
